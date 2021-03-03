@@ -1,0 +1,98 @@
+{% extends "proj5FinTracker/layout.html" %}
+{% load static %}
+{% block body %}
+
+
+<div class="row">
+
+
+	<div class="col-md-2 ">
+		
+		<div class="form-group">
+		<form id="search-bymonth-form" method="post" action="{% url 'vmonth' %}" >
+		
+			{{ search_form }}<br />
+			{% csrf_token %}
+		
+		</form>
+		<button type="submit" id="search-bymonth-button" form="search-bymonth-form" class="btn btn-primary" value="Submit">Submit</button>
+		{{yr}}-{{mon}}
+		</div>
+		<nav style="width:10px" class="navbar navbar-inverse" >
+		  <ul class="nav flex-column">
+			<li class="active"><a href="#">Home</a></li>
+			<li class="nav-item"><a href="{% url 'vmonth' %}">Month View</a></li>
+			<li class="nav-item"><a href="#">View by Category</a></li>
+			<li class="nav-item"><a href="#">Category View</a></li>
+			<li class="nav-item"><a href="#">Budget Analysis</a></li>
+		  </ul>
+		</nav>
+	</div>
+	
+	
+	<div class="col-md-6">
+	{{ msg }} <br />
+	<table class="table table-bordered table-striped">
+	<thead>
+			<tr>
+				<th>Date</th>
+				<th>Description</th>
+				<th>Amount</th>
+				<th>Category</th>
+				<th>Group</th>
+			</tr>
+		</thead>
+	{% for transaction in transaction_set %}
+	
+		
+		<tbody>
+		<tr>
+		
+		
+		<td id="transdate" class="info">
+			{{ transaction.id }} {{ transaction.trans_date }}	
+			<form id="edit-trans" method="post">
+				<input type="hidden" id="transid" name="transid" value="{{ transaction.id }}">
+				<input type="submit" value="press">
+				{% csrf_token %}
+			</form>
+		</td>
+		
+		<td class="info">
+			{{ transaction.trans_msg }}		
+		</td>
+		
+		<td class="info">
+			{{ transaction.trans_amt }}		
+		</td>
+		
+		<td class="info">
+			{{ transaction.trans_category }}			
+		</td>
+		
+		<td class="info">
+			{{ transaction.trans_group }}			
+		</td>
+		</tr>
+		</tbody>
+		
+	{% endfor %}
+	</table>
+	</div>
+	<div id='aggregates' class="col-xs-4">
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+		dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex 
+		ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat 
+		nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit 
+		anim id est laborum 
+	</div>
+</div>
+
+
+{% endblock %}
+
+
+{% block script %}
+	 <script src="{% static 'FinTracker/month.js' %}"></script>
+	 
+{% endblock %}
